@@ -153,7 +153,6 @@ const VideoCarousel = () => {
                   playsInline={true}
                   preload="auto"
                   muted
-                 
                   ref={(el) => (videoRef.current[i] = el)}
                   onEnded={() =>
                     i !== 3
