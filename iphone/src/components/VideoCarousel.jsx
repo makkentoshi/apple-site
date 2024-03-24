@@ -58,13 +58,17 @@ const VideoCarousel = () => {
     let currentProgress = 0;
     let span = videoSpanRef.current;
 
-    if (span[videoId]) {
-      //progress of the video
-      let anim = gsap.to(span[videoId], {
+    // Check if video element and video data exist
+    if (
+      videoRef.current &&
+      videoRef.current[videoId] &&
+      hightlightsSlides[videoId].videoDuration > 0
+    ) {
+      const anim = gsap.to(span[videoId], {
         onUpdate: () => {
           const progress = Math.ceil(anim.progress() * 100);
 
-          if (progress != currentProgress) {
+          if (progress !== currentProgress) {
             currentProgress = progress;
 
             gsap.to(videoDivRef.current[videoId], {
@@ -94,24 +98,27 @@ const VideoCarousel = () => {
         },
       });
 
-      if (videoId === 0) {
-        anim.restart();
-      }
-
       const animUpdate = () => {
-        anim.progress(
-          videoRef.current[videoId].currentTime /
-            hightlightsSlides[videoId].videoDuration
-        );
+        if (videoRef.current[videoId]) {
+          // Check if video is still available
+          anim.progress(
+            videoRef.current[videoId].currentTime /
+              hightlightsSlides[videoId].videoDuration
+          );
+        }
       };
+
       if (isPlaying) {
         gsap.ticker.add(animUpdate);
       } else {
         gsap.ticker.remove(animUpdate);
       }
+    } else {
+      console.warn("Video element or data not yet available. Waiting...");
     }
-  }, [videoId, startPlay]);
 
+    // Add videoRef as a dependency for re-running on video changes
+  }, [videoId, videoRef, isPlaying, startPlay]);
   const handleProcess = (type, i) => {
     switch (type) {
       case "video-end":

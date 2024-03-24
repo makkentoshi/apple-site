@@ -3,6 +3,7 @@ import gsap from "gsap";
 import ModelView from "./ModelView";
 import { useRef, useState } from "react";
 import { yellowImg } from "../utils";
+import { Html } from "@react-three/drei";
 
 import * as THREE from "three";
 import { Canvas } from "@react-three/fiber";
@@ -72,17 +73,19 @@ const Model = () => {
                 position: "fixed",
                 top: 0,
                 bottom: 0,
-                right: 0,
                 left: 0,
+                right: 0,
                 overflow: "hidden",
               }}
               eventSource={document.getElementById("root")}
             >
-              <View.Port></View.Port>
+              <View.Port />
             </Canvas>
           </div>
           <div className="mx-auto w-full">
             <p className="text-sm text-center font-light mb-6">{model.title}</p>
+
+            
             <div className="flex-center">
               <ul className="color-container">
                 {models.map((item, i) => (
