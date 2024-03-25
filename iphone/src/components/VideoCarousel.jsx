@@ -98,20 +98,24 @@ const VideoCarousel = () => {
         },
       });
 
-      const animUpdate = () => {
-        if (videoRef.current[videoId]) {
-          // Check if video is still available
-          anim.progress(
-            videoRef.current[videoId].currentTime /
-              hightlightsSlides[videoId].videoDuration
-          );
-        }
-      };
+      try {
+        const animUpdate = () => {
+          if (videoRef.current[videoId]) {
+            // Check if video is still available
+            anim.progress(
+              videoRef.current[videoId].currentTime /
+                hightlightsSlides[videoId].videoDuration
+            );
+          }
+        };
 
-      if (isPlaying) {
-        gsap.ticker.add(animUpdate);
-      } else {
-        gsap.ticker.remove(animUpdate);
+        if (isPlaying) {
+          gsap.ticker.add(animUpdate);
+        } else {
+          gsap.ticker.remove(animUpdate);
+        }
+      } catch (error) {
+        console.log("Error updating progress bar: ", error);
       }
     } else {
       console.warn("Video element or data not yet available. Waiting...");
